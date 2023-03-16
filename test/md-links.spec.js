@@ -1,19 +1,7 @@
-const { mdLinks } = require('../cli.js');
-const path = require('path');
+const components = require('../components/components.js')
 
-describe('mdLinks', () => {
-
-  let pathFile;
-
-  it('Revisar que la ruta ingresada sea absoluta', () => {
-    pathFile = "C:\Users\Joki\LABORATORIA\DEV003-social-network";
-    
-    expect (console.log(true));
-  });
-
-  it('Convertir ruta relativa a ruta absoluta', () => {
-    pathFile = ".\DEV003-social-network";
-    expected = "\Users\Joki\LABORATORIA\DEV003-social-network"
-    expect(mdLinks).toBe(false);
-  });
+describe('prueba de función que corrobora si la extensión del archivo es markdown', () => {
+  
+  it('The file extension is .md returns true/false', () => {
+    expect(components.checkMd('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA1.md').toBe(true) )})
 })
