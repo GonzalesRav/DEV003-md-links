@@ -31,25 +31,26 @@ const checkMd = (route) => {
 
 // Fx que extrae links
 const extractLinks = (route) => {
-  try {
-  const readMd = fs.readFileSync(route, 'utf8');
-  const regex = /\[(.*?)\]\((?!#)(.*?)\)/g;
-  let match;
-  while ((match = regex.exec(readMd)) !== null) { 
-      const text = match[1].slice(0,50); 
-      const url = match[2]; 
-      const file = route;
-      console.log(file, url, text);
-      }
-  } catch (error) {
-      console.log(error);
-  }
-  
+  return new Promise((resolve, reject) => {
+    fs.readFile(route, 'utf8', (err, data) => {
+      if (err) reject(err);
+      const regex = /\[(.*?)\]\((?!#)(.*?)\)/g;
+      const links = [];
+      let match;
+      while ((match = regex.exec(data)) !== null) { 
+          const text = match[1].slice(0,50); 
+          const url = match[2]; 
+          const file = route;
+          links.push({file, url, text});
+      } 
+      resolve(links.map(link => `${link.file} ${link.url} ${link.text}`).join('\n'));
+    });
+  });
 }
 
 // Fx que extrae los archivos de la carpeta
 const readir = (route) => {
-  return fs.readdirSync(route);
+  return Promise.resolve(fs.readdirSync(route));
 }
 
 // Fx que del array de archivos vuelve las rutas absolutas
@@ -77,7 +78,7 @@ const dirLinks = (array) => {
     array.forEach(element => {
     filesLinks.push(extractLinks(element));
     });
-  return console.log(filesLinks);
+  return filesLinks;
 }
 
 module.exports = {
