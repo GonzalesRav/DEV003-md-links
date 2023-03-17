@@ -50,7 +50,7 @@ const extractLinks = (route) => {
 
 // Fx que extrae los archivos de la carpeta
 const readir = (route) => {
-  return Promise.resolve(fs.readdirSync(route));
+  return fs.readdirSync(route);
 }
 
 // Fx que del array de archivos vuelve las rutas absolutas
