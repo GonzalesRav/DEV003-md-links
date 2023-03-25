@@ -9,4 +9,4 @@
 [Arrow Functions](https://curriculum.laboratoria.la/es/topics/javascript/03-functions/02-arrow)
 [Jest](https://jestjs.io/)
 [File system - Documentación oficial (en inglés)](https://nodejs.org/api/fs.html)
-[Path-aaaaabbbbbcccccdddddeeeeefffffggggghhhhhiiiiijjjjjkkkkk](https://nodejs.org/api/path.html)
+[Path-aaaaabbbbbcccccdddddeeeeefffffggggghhhhhiiiiijjjjjkkkkk](https://nodejs.org//pat.html)

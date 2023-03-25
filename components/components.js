@@ -1,5 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
+const axios = require('axios')
 
 // Fx que convierte la ruta en absoluta
 const toAbsolute = (route) => {
@@ -31,22 +32,25 @@ const checkMd = (route) => {
 
 // Fx que extrae links
 const extractLinks = (route) => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(route, 'utf8', (err, data) => {
-      if (err) reject(err);
-      const regex = /\[(.*?)\]\((?!#)(.*?)\)/g;
-      const links = [];
-      let match;
-      while ((match = regex.exec(data)) !== null) { 
-          const text = match[1].slice(0,50); 
-          const url = match[2]; 
-          const file = route;
-          links.push({file, url, text});
-      } 
-      resolve(links.map(link => `${link.file} ${link.url} ${link.text}`).join('\n'));
+    return new Promise((resolve, reject) => {
+      fs.readFile(route, 'utf8', (err, data) => {
+        if (err) reject(err);
+        const regex = /\[(.*?)\]\((?!#)(.*?)\)/g;
+        const links = [];
+        let match;
+        while ((match = regex.exec(data)) !== null) { 
+            const text = match[1].slice(0,50); 
+            const href = match[2]; 
+            const file = route;
+            links.push({file, href, text});
+        } 
+        resolve (links);
+      });
     });
-  });
-}
+  }
+
+// Fx status
+
 
 // Fx que extrae los archivos de la carpeta
 const readir = (route) => {
@@ -81,6 +85,40 @@ const dirLinks = (array) => {
   return filesLinks;
 }
 
+// Fx para extraer el status de la url
+
+const urlStatus = (array) => {
+  return Promise.all(array.map((element) => {
+    return (axios.get(element.href))
+    .then((res) => {
+      return {
+        file: element.file,
+        href: element.href,
+        text: element.text,
+        status: res.status,
+        ok: res.statusText
+      }
+    })
+    .catch((error) => {
+      let errorStatus = 400;
+      let errorStatusText = 'internal server error';
+      if (error.response) {
+        errorStatus = error.response.status;
+        errorStatusText = error.response.statusText;
+      } else if (error.request) {
+        errorStatus = 500;
+      } 
+      return {
+        file: element.file,
+        href: element.href,
+        text: element.text,
+        status: errorStatus,
+        ok: errorStatusText
+      }
+    })
+  }))
+}
+
 module.exports = {
   pathExists,
   toAbsolute,
@@ -92,4 +130,5 @@ module.exports = {
   filterMd,
   dirLinks,
   extractLinks,
+  urlStatus,
 };
