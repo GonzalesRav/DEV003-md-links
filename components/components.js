@@ -87,38 +87,64 @@ const dirLinks = (array) => {
 
 // Fx para extraer el status de la url
 
+// const urlStatus = (array) => {
+//   return Promise.allSettled(array.map((element) => {
+//     return (axios.get(element.href))
+//     .then((res) => {
+//       return {
+//         file: element.file,
+//         href: element.href,
+//         text: element.text,
+//         status: res.status,
+//         ok: res.statusText
+//       }
+//     })
+//     .catch((error) => {
+//       let errorStatus
+//       if (error.response) {
+//         errorStatus = error.response.status;
+//       } else if (error.request) {
+//         errorStatus = 500
+//       } else {
+//         errorStatus = 400
+//       }
+//       return {
+//         file: element.file,
+//         href: element.href,
+//         text: element.text,
+//         status: errorStatus,
+//         ok: 'fail'
+//       }
+//     })
+//   }))
+// }
+
 const urlStatus = (array) => {
-  return Promise.all(array.map((element) => {
+  return Promise.allSettled(array.map((element) => {
     return (axios.get(element.href))
     .then((res) => {
-      return {
-        file: element.file,
-        href: element.href,
-        text: element.text,
-        status: res.status,
-        ok: res.statusText
+      if ((res.status <= 299) && (res.status >= 200)) {
+        return {
+          file: element.file,
+          href: element.href,
+          text: element.text,
+          status: res.status,
+          ok: res.statusText
+        }
+      } else {
+        return {
+          file: element.file,
+          href: element.href,
+          text: element.text,
+          status: res.status,
+          ok: 'fail'
+        }
       }
+      
     })
-    .catch((error) => {
-      let errorStatus = 400;
-      let errorStatusText = 'internal server error';
-      if (error.response) {
-        errorStatus = error.response.status;
-        errorStatusText = error.response.statusText;
-      } else if (error.request) {
-        errorStatus = 500;
-      } 
-      return {
-        file: element.file,
-        href: element.href,
-        text: element.text,
-        status: errorStatus,
-        ok: errorStatusText
-      }
-    })
+    
   }))
 }
-
 module.exports = {
   pathExists,
   toAbsolute,
