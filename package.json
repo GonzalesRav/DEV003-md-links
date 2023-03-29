@@ -16,7 +16,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --env=node"
   },
   "repository": {
     "type": "git",

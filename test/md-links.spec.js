@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { checkMd, toAbsolute, pathExists, file, dir } = require('../components/components.js')
+const { checkMd, toAbsolute, pathExists, file, dir, urlStatus } = require('../components/components.js')
 
 describe('prueba de función que corrobora si la extensión del archivo es markdown', () => {
   
@@ -42,3 +42,25 @@ describe('prueba de función que verifica que la ruta ingresada corresponda a un
   })
 })
 
+describe('prueba de función que valida la url extrayendo status http', () => {
+  
+  it('Catches an error when the url is invalid', () => {
+    
+    return urlStatus([{
+    file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+    href: 'https://nodejs.org/api/fs.html',
+    text: 'Path-aaaaabbbbbcccccdddddeeeeefffffggggghhhhhiiiii'}]).catch((error).not.toBeNull())
+  })
+})
+
+// describe('prueba de función que valida la url extrayendo status http', () => {
+  
+//   it('Catches an error when the url is invalid', () => {
+    
+//     return urlStatus([{
+//       file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+//       href: 'https://jestjs.io/',
+//       text: 'Jest'
+//     }]).then(res => {expect(res.text).toBe('Jest')})
+//   })
+// })
