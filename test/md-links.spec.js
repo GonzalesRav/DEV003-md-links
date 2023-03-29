@@ -1,8 +1,44 @@
 /* eslint-disable no-undef */
-const { checkMd } = require('../components/components.js')
+const { checkMd, toAbsolute, pathExists, file, dir } = require('../components/components.js')
 
 describe('prueba de función que corrobora si la extensión del archivo es markdown', () => {
   
   it('The file extension is .md returns true/false', () => {
-    expect(checkMd('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA1.md').toBe(true) )})
+    const a = checkMd('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA1.md')
+    expect(a).toBeTruthy()
+  })
 })
+
+describe('prueba de función que verifica que la ruta ingresada se convierta a ruta absoluta', () => {
+  
+  it('Converts relative path to absolute path', () => {
+    const b = toAbsolute('.\\prueba\\PRUEBA1.md')
+    const result = 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA1.md'
+    expect(b).toEqual(result)
+  })
+})
+
+describe('prueba de función que verifica que la ruta ingresada exista', () => {
+  
+  it('Verifies if path exists', () => {
+    const c = pathExists('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA1.md')
+    expect(c).toBeTruthy()
+  })
+})
+
+describe('prueba de función que verifica que la ruta ingresada corresponda a un archivo', () => {
+  
+  it('Verifies if path is a file', () => {
+    const d = file('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA1.md')
+    expect(d).toBeTruthy()
+  })
+})
+
+describe('prueba de función que verifica que la ruta ingresada corresponda a un directorio', () => {
+  
+  it('Verifies if path is a directory', () => {
+    const e = dir('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba')
+    expect(e).toBeTruthy()
+  })
+})
+
