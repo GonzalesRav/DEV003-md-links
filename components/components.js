@@ -85,40 +85,7 @@ const dirLinks = (array) => {
   return filesLinks;
 }
 
-// Fx para extraer el status de la url
-
-// const urlStatus = (array) => {
-//   return Promise.allSettled(array.map((element) => {
-//     return (axios.get(element.href))
-//     .then((res) => {
-//       return {
-//         file: element.file,
-//         href: element.href,
-//         text: element.text,
-//         status: res.status,
-//         ok: res.statusText
-//       }
-//     })
-//     .catch((error) => {
-//       let errorStatus
-//       if (error.response) {
-//         errorStatus = error.response.status;
-//       } else if (error.request) {
-//         errorStatus = 500
-//       } else {
-//         errorStatus = 400
-//       }
-//       return {
-//         file: element.file,
-//         href: element.href,
-//         text: element.text,
-//         status: errorStatus,
-//         ok: 'fail'
-//       }
-//     })
-//   }))
-// }
-
+// Fx para validar el href
 const urlStatus = (array) => {
   return Promise.allSettled(array.map((element) => {
     return (axios.get(element.href))
@@ -131,19 +98,48 @@ const urlStatus = (array) => {
           status: res.status,
           ok: res.statusText
         }
-      } else {
-        return {
-          file: element.file,
-          href: element.href,
-          text: element.text,
-          status: res.status,
-          ok: 'fail'
-        }
+      }      
+    })
+    .catch((error) => {
+      return {
+        file: element.file,
+        href: element.href,
+        text: element.text,
+        status: error.response.status,
+        ok: 'fail'
       }
-      
     })
     
   }))
+}
+
+// Fx que extrae stats
+
+const stats = (array) => {
+  // let elements = array.map((element) => { element.href })
+  let elements = []
+  array.forEach((element) => { elements.push(element.href) })
+  const unique = [... new Set(elements)]
+  // const noRepeat = Array.from(unique)
+  // console.log(elements)
+  return {
+    total: elements.length,
+    unique: unique.length
+  }
+}
+
+const broken = (array) => {
+  // let elements = array.map((element) => { element.href })
+  let elements = []
+  array.forEach((element) => { elements.push(element.value.href) })
+  const unique = [... new Set(elements)]
+  const broken = array.filter((element) => element.value.ok === 'fail')
+  // const noRepeat = Array.from(unique)
+    return {
+      total: elements.length,
+      unique: unique.length,
+      broken: broken.length
+    }
 }
 module.exports = {
   pathExists,
@@ -157,4 +153,6 @@ module.exports = {
   dirLinks,
   extractLinks,
   urlStatus,
-};
+  stats,
+  broken
+}

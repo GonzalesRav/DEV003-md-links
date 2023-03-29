@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const { checkMd } = require('../components/components.js')
 
 describe('prueba de función que corrobora si la extensión del archivo es markdown', () => {
