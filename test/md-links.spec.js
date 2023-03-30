@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 const { checkMd, toAbsolute, pathExists, file, dir, urlStatus } = require('../components/components.js')
+const axios = require('axios')
+jest.mock('axios')
 
 describe('prueba de función que corrobora si la extensión del archivo es markdown', () => {
   
@@ -44,12 +46,25 @@ describe('prueba de función que verifica que la ruta ingresada corresponda a un
 
 describe('prueba de función que valida la url extrayendo status http', () => {
   
-  it('Catches an error when the url is invalid', () => {
+  it('Prints status and status text', () => {
     
-    return urlStatus([{
-    file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
-    href: 'https://nodejs.org/api/fs.html',
-    text: 'Path-aaaaabbbbbcccccdddddeeeeefffffggggghhhhhiiiii'}]).catch((error).not.toBeNull())
+    const urlArray = [{
+      file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+      href: 'https://curriculum.laboratoria.la/es/topics/javascript/03-functions/01-classic',
+      text: 'Funciones clásicas'}]
+
+    const response = {status: 200, ok: 'OK'}
+    axios.get.mockResolvedValue(response)
+
+    return urlStatus(urlArray).then(resp => expect(resp).toEqual(
+      [{
+        file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+        href: 'https://curriculum.laboratoria.la/es/topics/javascript/03-functions/01-classic',
+        text: 'Funciones clásicas',
+        status: 200,
+        ok: 'OK'
+      }]
+    ))
   })
 })
 
@@ -64,3 +79,5 @@ describe('prueba de función que valida la url extrayendo status http', () => {
 //     }]).then(res => {expect(res.text).toBe('Jest')})
 //   })
 // })
+
+// pARA URLSTATUS hacer mock del axios
