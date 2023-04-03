@@ -1,7 +1,9 @@
 /* eslint-disable no-undef */
-const { checkMd, toAbsolute, pathExists, file, dir, urlStatus } = require('../components/components.js')
+const { checkMd, toAbsolute, pathExists, file, dir, urlStatus, readir, filterMd, stats, broken } = require('../components/components.js')
 const axios = require('axios')
+
 jest.mock('axios')
+
 
 describe('prueba de función que corrobora si la extensión del archivo es markdown', () => {
   
@@ -44,6 +46,22 @@ describe('prueba de función que verifica que la ruta ingresada corresponda a un
   })
 })
 
+describe('prueba de función que extrae el contenido de la carpeta', () => {
+  
+  it('Shows in an array the directory content', () => {
+    const f = readir('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba')
+    expect(f).toEqual([ 'carpeta1', 'PRUEBA0.md', 'PRUEBA1.md', 'PRUEBA2.md', 'pruebita.js' ])
+  })
+})
+
+describe('Fx que filtra el array de rutas absolutas y filtra los archivos md', () => {
+  
+  it('Selects the markdown files', () => {
+    const g = filterMd([ 'carpeta1', 'PRUEBA0.md', 'PRUEBA1.md', 'PRUEBA2.md', 'pruebita.js' ])
+    expect(g).toEqual([ 'PRUEBA0.md', 'PRUEBA1.md', 'PRUEBA2.md'])
+  })
+})
+
 describe('prueba de función que valida la url extrayendo status http', () => {
   
   it('Prints status and status text', () => {
@@ -53,31 +71,129 @@ describe('prueba de función que valida la url extrayendo status http', () => {
       href: 'https://curriculum.laboratoria.la/es/topics/javascript/03-functions/01-classic',
       text: 'Funciones clásicas'}]
 
-    const response = {status: 200, ok: 'OK'}
-    axios.get.mockResolvedValue(response)
+ 
+      axios.get.mockImplementationOnce(() => Promise.resolve({status: 200, statusText: 'OK'}))
+      // axios.get.mockResolvedValue({status: 200, ok: 'OK'})
 
-    return urlStatus(urlArray).then(resp => expect(resp).toEqual(
-      [{
-        file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
-        href: 'https://curriculum.laboratoria.la/es/topics/javascript/03-functions/01-classic',
-        text: 'Funciones clásicas',
-        status: 200,
-        ok: 'OK'
-      }]
-    ))
+    return urlStatus(urlArray).then(resp => {
+      expect(resp).toEqual(
+        [
+          {
+            status: 'fulfilled',
+            value: {
+              file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+              href: 'https://curriculum.laboratoria.la/es/topics/javascript/03-functions/01-classic',
+              text: 'Funciones clásicas',
+              status: 200,
+              ok: 'OK'
+            }
+          }
+        ]
+    )})
+  })
+
+  it('Chatches error and prints status and status text', () => {
+    
+    const urlArray = [{
+      file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+      href: 'https://nodejs.org//pat.html',
+      text: 'Path-aaaaabbbbbcccccdddddeeeeefffffggggghhhhhiiiii'}]
+
+ 
+      axios.get.mockImplementationOnce(() => Promise.reject({status: 404, statusText: 'fail'}))
+      // axios.get.mockResolvedValue({status: 200, ok: 'OK'})
+
+    return urlStatus(urlArray).catch(err => {
+      expect(err).toEqual(
+        [
+          {
+            status: 'fulfilled',
+            value: {
+              file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+              href: 'https://nodejs.org//pat.html',
+              text: 'Path-aaaaabbbbbcccccdddddeeeeefffffggggghhhhhiiiii',
+              status: 404,
+              ok: 'fail'
+            }
+          }
+        ]
+    )})
   })
 })
 
-// describe('prueba de función que valida la url extrayendo status http', () => {
-  
-//   it('Catches an error when the url is invalid', () => {
-    
-//     return urlStatus([{
-//       file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
-//       href: 'https://jestjs.io/',
-//       text: 'Jest'
-//     }]).then(res => {expect(res.text).toBe('Jest')})
-//   })
-// })
+describe('Fx que extrae el total de elementos y la cantidad de elementos unicos', () => {
+  const array = [
+    {
+      file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+      href: 'https://es.wikipedia.org/wiki/Node.js',
+      text: 'Node.js - Wikipedia'
+    },
+    {
+      file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+      href: 'https://github.com/Laboratoria/course-parser',
+      text: '`course-parser`'
+    },
+    {
+      file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+      href: 'https://nodejs.org/api/fs.html',
+      text: 'File system - Documentación oficial (en inglés)'
+    },
+    {
+      file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+      href: 'https://nodejs.org//pat.html',
+      text: 'Path-aaaaabbbbbcccccdddddeeeeefffffggggghhhhhiiiii'
+    }
+  ]
 
-// pARA URLSTATUS hacer mock del axios
+  const arrayBroken = [
+    {
+      status: 'fulfilled',
+      value: {
+        file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+        href: 'https://curriculum.laboratoria.la/es/topics/javascript/03-functions/02-arrow',
+        text: 'Arrow Functions',
+        status: 200,
+        ok: 'OK'
+      }
+    },
+    {
+      status: 'fulfilled',
+      value: {
+        file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+        href: 'https://jestjs.io/',
+        text: 'Jest',
+        status: 200,
+        ok: 'OK'
+      }
+    },
+    {
+      status: 'fulfilled',
+      value: {
+        file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+        href: 'https://nodejs.org/api/fs.html',
+        text: 'File system - Documentación oficial (en inglés)',
+        status: 200,
+        ok: 'OK'
+      }
+    },
+    {
+      status: 'fulfilled',
+      value: {
+        file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA2.md',
+        href: 'https://nodejs.org//pat.html',
+        text: 'Path-aaaaabbbbbcccccdddddeeeeefffffggggghhhhhiiiii',
+        status: 404,
+        ok: 'fail'
+      }
+    }
+  ]
+  it('Shows stats', () => {
+    const h = stats(array)
+    expect(h).toEqual({ total: 4, unique: 4 })
+  })
+
+  it('Shows stats and broken links', () => {
+    const i = broken(arrayBroken)
+    expect(i).toEqual({ total: 4, unique: 4, broken: 1 })
+  })
+})

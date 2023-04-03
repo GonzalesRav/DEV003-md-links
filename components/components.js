@@ -76,14 +76,14 @@ const filterMd = (array) => {
 } 
 
 // Fx que recibe un array de rutas md y extrae los links de cada uno
-const dirLinks = (array) => {
-  let filesLinks = [];
+// const dirLinks = (array) => {
+//   let filesLinks = [];
           
-    array.forEach(element => {
-    filesLinks.push(extractLinks(element));
-    });
-  return filesLinks;
-}
+//     array.forEach(element => {
+//     filesLinks.push(extractLinks(element));
+//     });
+//   return filesLinks;
+// }
 
 // Fx para validar el href
 const urlStatus = (array) => {
@@ -116,12 +116,10 @@ const urlStatus = (array) => {
 // Fx que extrae stats
 
 const stats = (array) => {
-  // let elements = array.map((element) => { element.href })
   let elements = []
   array.forEach((element) => { elements.push(element.href) })
   const unique = [... new Set(elements)]
-  // const noRepeat = Array.from(unique)
-  // console.log(elements)
+
   return {
     total: elements.length,
     unique: unique.length
@@ -129,12 +127,10 @@ const stats = (array) => {
 }
 
 const broken = (array) => {
-  // let elements = array.map((element) => { element.href })
   let elements = []
   array.forEach((element) => { elements.push(element.value.href) })
   const unique = [... new Set(elements)]
   const broken = array.filter((element) => element.value.ok === 'fail')
-  // const noRepeat = Array.from(unique)
     return {
       total: elements.length,
       unique: unique.length,
@@ -150,7 +146,7 @@ module.exports = {
   eachFile,
   checkMd,
   filterMd,
-  dirLinks,
+  // dirLinks,
   extractLinks,
   urlStatus,
   stats,

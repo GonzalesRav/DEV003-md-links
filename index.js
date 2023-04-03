@@ -1,5 +1,5 @@
 
-const { pathExists, toAbsolute, file, dir, checkMd, extractLinks, urlStatus } = require('./components/components.js')
+const { pathExists, toAbsolute, file, dir, checkMd, extractLinks, urlStatus, readir } = require('./components/components.js')
 
 const MdLinks = (path, options) => {
     return new Promise((resolve, reject) => {
@@ -21,9 +21,11 @@ const MdLinks = (path, options) => {
             }
             else if (dir(absolute)) {
                 console.log('es directorio');
+                const a = readir(absolute)
+                console.log(a)
             }
         } else {
-           reject(new Error('Por favor, introduzca datos con el formato válido. Para solicitar ayuda utilizar el comando "--help"')) 
+           reject(new Error('La ruta ingresada no existe')) 
         }
     }
     
