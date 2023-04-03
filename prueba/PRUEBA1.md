@@ -1,12 +1,1 @@
-[1. Preámbulo](#1-preámbulo)
-[2. Resumen del proyecto](#2-resumen-del-proyecto)
-[3. Objetivos de aprendizaje](#3-objetivos-de-aprendizaje)
-[4. Consideraciones generales](#4-consideraciones-generales)
-[5. Criterios de aceptación mínimos del proyecto](#5-criterios-de-aceptación-mínimos-del-proyecto)
-[Markdown](https://es.wikipedia.org/wiki/Markdown)
-[Node.js](https://nodejs.org/es/)
-[motor de JavaScript V8 de Chrome](https://developers.google.com/v8/)
-[Arreglos](https://curriculum.laboratoria.la/es/topics/javascript/04-arrays)
-[Array - MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/)
-[markdown-it](https://github.com/markdown-it/markdown-it)
 [docs oficiales de `npm install` acá](https://docs.npmjs.com/cli/install).

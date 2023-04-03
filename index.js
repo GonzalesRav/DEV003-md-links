@@ -20,9 +20,7 @@ const MdLinks = (path, options) => {
                 } else {console.error('La ruta ingresada no pertenece a un archivo .md')}
             }
             else if (dir(absolute)) {
-                console.log('es directorio');
-                const a = readir(absolute)
-                console.log(a)
+                console.log('La ruta corresponde a un directorio, por favor ingresar un archivo markdown.')                
             }
         } else {
            reject(new Error('La ruta ingresada no existe')) 

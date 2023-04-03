@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { checkMd, toAbsolute, pathExists, file, dir, urlStatus, readir, filterMd, stats, broken } = require('../components/components.js')
+const { checkMd, toAbsolute, pathExists, file, dir, urlStatus, readir, filterMd, stats, broken, extractLinks, eachFile } = require('../components/components.js')
 const axios = require('axios')
 
 jest.mock('axios')
@@ -59,6 +59,27 @@ describe('Fx que filtra el array de rutas absolutas y filtra los archivos md', (
   it('Selects the markdown files', () => {
     const g = filterMd([ 'carpeta1', 'PRUEBA0.md', 'PRUEBA1.md', 'PRUEBA2.md', 'pruebita.js' ])
     expect(g).toEqual([ 'PRUEBA0.md', 'PRUEBA1.md', 'PRUEBA2.md'])
+  })
+})
+
+describe('Fx que del array de archivos vuelve las rutas absolutas', () => {
+  
+  it('returns the array of relative paths as an array of absolutes', () => {
+    const h = eachFile([ 'carpeta1', 'PRUEBA1.md', 'pruebita.js' ], 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba')
+    expect(h).toEqual([ 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\carpeta1', 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA1.md',
+    'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\pruebita.js'])
+  })
+})
+
+describe('Fx que lee el archivo markdown y extrae las urls', () => {
+  it('Returns an object array with the links found', () => {
+    return extractLinks('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA1.md')
+      .then((res) => {
+        expect(res).toEqual([{
+          file: 'C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA1.md',
+          href: 'https://docs.npmjs.com/cli/install',
+          text: 'docs oficiales de `npm install` acá'}])
+      })
   })
 })
 

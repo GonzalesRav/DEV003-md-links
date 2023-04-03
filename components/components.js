@@ -137,6 +137,26 @@ const broken = (array) => {
       broken: broken.length
     }
 }
+
+const getFilesWithPath = (route) => {
+// Si route es file, devolver arreglo con el file
+// Si es directorio, devolver arreglo con su contenido utilizando readir
+let filesArray = []
+if (file(route)){
+  filesArray.push(route)
+  return filesArray
+} else {
+  const directoryContent = readir(route)
+  const directoryContentAbsolute = eachFile(directoryContent, route)
+  directoryContentAbsolute.forEach(element => {
+    let arrFiles = getFilesWithPath(element)
+    // Añadir elementos .md del arrFiles al filesArray
+    // Buscar concatenar arreglos 
+  })
+  return filesArray
+}
+}
+
 module.exports = {
   pathExists,
   toAbsolute,
