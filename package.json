@@ -10,7 +10,7 @@
     "version": "5.5.0",
     "commit": "a63a770ea33332882790401851df337734b0b734"
   },
-  "description": "Api que busca links",
+  "description": "Librería que busca links",
   "main": "index.js",
   "directories": {
     "test": "test"
