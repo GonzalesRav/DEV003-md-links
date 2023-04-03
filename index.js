@@ -1,11 +1,11 @@
 
-const { pathExists, toAbsolute, file, dir, checkMd, extractLinks, urlStatus, readir } = require('./components/components.js')
+const { pathExists, toAbsolute, pathIsDirectory, pathIsFile, checkMd, extractLinks, urlStatus } = require('./components/components.js')
 
 const MdLinks = (path, options) => {
     return new Promise((resolve, reject) => {
         const absolute = toAbsolute(path)
         if (pathExists(absolute)) {
-            if (file(absolute)) {
+            if (pathIsFile(absolute)) {
                 if (checkMd(absolute)) {
                     const links = extractLinks(absolute)
                     links.then((res) => {
@@ -19,7 +19,7 @@ const MdLinks = (path, options) => {
                     
                 } else {console.error('La ruta ingresada no pertenece a un archivo .md')}
             }
-            else if (dir(absolute)) {
+            else if (pathIsDirectory(absolute)) {
                 console.log('La ruta corresponde a un directorio, por favor ingresar un archivo markdown.')                
             }
         } else {

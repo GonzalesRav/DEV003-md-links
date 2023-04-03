@@ -13,13 +13,13 @@ const pathExists = (route) => {
 }
 
 // Fx sincrona que revisa si es un  archivo 
-const file = (route) => {
+const pathIsFile = (route) => {
   const r = fs.statSync(route) 
   return r.isFile() ? true :false
 }
 
 // Fx sincrona que revisa si es un  directorio 
-const dir = (route) => {
+const pathIsDirectory = (route) => {
   const r = fs.statSync(route) 
   return r.isDirectory() ? true :false
 }
@@ -138,30 +138,30 @@ const broken = (array) => {
     }
 }
 
-const getFilesWithPath = (route) => {
-// Si route es file, devolver arreglo con el file
-// Si es directorio, devolver arreglo con su contenido utilizando readir
-let filesArray = []
-if (file(route)){
-  filesArray.push(route)
-  return filesArray
-} else {
-  const directoryContent = readir(route)
-  const directoryContentAbsolute = eachFile(directoryContent, route)
-  directoryContentAbsolute.forEach(element => {
-    let arrFiles = getFilesWithPath(element)
-    // Añadir elementos .md del arrFiles al filesArray
-    // Buscar concatenar arreglos 
-  })
-  return filesArray
-}
-}
+// const getFilesWithPath = (route) => {
+// // Si route es file, devolver arreglo con el file
+// // Si es directorio, devolver arreglo con su contenido utilizando readir
+// let filesArray = []
+// if (file(route)){
+//   filesArray.push(route)
+//   return filesArray
+// } else {
+//   const directoryContent = readir(route)
+//   const directoryContentAbsolute = eachFile(directoryContent, route)
+//   directoryContentAbsolute.forEach(element => {
+//     let arrFiles = getFilesWithPath(element)
+//     // Añadir elementos .md del arrFiles al filesArray
+//     // Buscar concatenar arreglos 
+//   })
+//   return filesArray
+// }
+// }
 
 module.exports = {
   pathExists,
   toAbsolute,
-  file,
-  dir,
+  pathIsFile,
+  pathIsDirectory,
   readir,
   eachFile,
   checkMd,
