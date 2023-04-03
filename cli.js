@@ -16,17 +16,20 @@ if (inputArray.length <= 2) {
   MdLinks(path, {validate: true}).then((resValidateMd) => {
     if (valStats) {
       const brokenStats = broken(resValidateMd)
-      console.log(brokenStats)
-    } else {console.log(resValidateMd)}
+      console.log(' Total: ',brokenStats.total,'\n',
+       'Unique: ', brokenStats.unique,'\n',
+       'Broken: ', brokenStats.broken)
+    } else {console.log(resValidateMd.map(link => `${link.value.file} ${link.value.href} ${link.value.text} ${link.value.status} ${link.value.ok}`).join('\n'))}
   })
 } else if (valStats) {
   MdLinks(path, {validate: false}).then((resStatsMd) => {
       const statistics = stats(resStatsMd)
-      console.log(statistics)
+      console.log(' Total: ',statistics.total,'\n',
+       'Unique: ', statistics.unique)
   })
 } else if (inputArray.length === 3) {
   MdLinks(path, {validate: false}).then((response) => {
-    console.log(response)
+    console.log(response.map(link => `${link.file} ${link.href} ${link.text}`).join('\n'))
   }).catch((error) => {console.log(error.message)})
 } else {
   console.log('Por favor, introduzca datos con el formato válido. Para solicitar ayuda utilizar el comando "--help"')
