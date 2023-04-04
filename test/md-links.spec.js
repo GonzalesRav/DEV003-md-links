@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { checkMd, toAbsolute, pathExists, file, dir, urlStatus, readir, filterMd, stats, broken, extractLinks, eachFile } = require('../components/components.js')
+const { checkMd, toAbsolute, pathExists, pathIsDirectory, urlStatus, readir, filterMd, stats, broken, extractLinks, eachFile, pathIsFile } = require('../lib/components.js')
 const axios = require('axios')
 
 jest.mock('axios')
@@ -33,7 +33,7 @@ describe('prueba de función que verifica que la ruta ingresada exista', () => {
 describe('prueba de función que verifica que la ruta ingresada corresponda a un archivo', () => {
   
   it('Verifies if path is a file', () => {
-    const d = file('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA1.md')
+    const d = pathIsFile('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba\\PRUEBA1.md')
     expect(d).toBeTruthy()
   })
 })
@@ -41,7 +41,7 @@ describe('prueba de función que verifica que la ruta ingresada corresponda a un
 describe('prueba de función que verifica que la ruta ingresada corresponda a un directorio', () => {
   
   it('Verifies if path is a directory', () => {
-    const e = dir('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba')
+    const e = pathIsDirectory('C:\\Users\\Joki\\LABORATORIA\\DEV003-md-links\\prueba')
     expect(e).toBeTruthy()
   })
 })

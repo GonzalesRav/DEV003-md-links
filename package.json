@@ -1,6 +1,6 @@
 {
   "name": "md-links",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "engines": {
     "node": ">=16.x"
   },
@@ -18,16 +18,23 @@
   "scripts": {
     "test": "jest --env=node --coverage --verbose"
   },
+
+  "keywords":[
+    "md-links",
+    "markdown",
+    "laboratoria"
+  ], 
+
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JOKI6696/DEV003-md-links.git"
+    "url": "git+https://github.com/gonzalesrav/DEV003-md-links.git"
   },
-  "author": "Johana Gonzales",
+  "author": "Johana Gonzales <j.gonzalesrav@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JOKI6696/DEV003-md-links/issues"
+    "url": "https://github.com/gonzalesrav/DEV003-md-links/issues"
   },
-  "homepage": "https://github.com/JOKI6696/DEV003-md-links#readme",
+  "homepage": "https://github.com/gonzalesrav/DEV003-md-links#readme",
   "bin": {
     "md-links": "./cli.js"
   },

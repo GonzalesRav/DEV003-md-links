@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const { broken, stats } = require('./components/components.js');
-const { MdLinks} = require('./index.js')
+const { broken, stats } = require('./lib/components.js');
+const { MdLinks} = require('./lib/index.js')
 
 const inputArray = process.argv;
 const path = inputArray[2]
