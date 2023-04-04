@@ -26,7 +26,7 @@ El proyecto contiene una herramienta de línea de comando (CLI) y una librería 
 
 ##### Argumentos
 
-* `path`: Ruta **absoluta** o **relativa** al **archivo** o **directorio**.
+* `path`: Ruta **absoluta** o **relativa** al **archivo**.
 (Si la ruta pasada es relativa, debe resolverse como relativa al directorio
 desde donde se invoca node - _current working directory_).
 * `options`: Un objeto con **únicamente** la siguiente propiedad:
@@ -70,12 +70,6 @@ mdLinks("./some/example.md", { validate: true })
   })
   .catch(console.error);
 
-mdLinks("./some/dir")
-  .then(links => {
-    // => [{ href, text, file }, ...]
-  })
-  .catch(console.error);
-```
 
 ### 2) CLI (Command Line Interface - Interfaz de Línea de Comando)
 
